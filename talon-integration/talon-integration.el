@@ -14,6 +14,15 @@
 
 ;;; Code:
 
+
+;; Added Spacemacs to the title
+(setq-default
+ dotspacemacs-frame-title-format
+ (if dotspacemacs-frame-title-format
+     (concat "Spacemacs - " dotspacemacs-frame-title-format)
+   "Spacemacs"))
+
+;; Create the customizable variable for Talon integration
 (defgroup talon-integration nil
   "Settings for talon-integration."
   :group 'talon-integration)

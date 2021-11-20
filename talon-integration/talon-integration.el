@@ -28,7 +28,7 @@
   :group 'talon-integration)
 
 (defcustom talon-integration-root
-  "~/.talon-integration/spacemacs/"
+  "~/.talon/spacemacs-info/"
   "The directory to which talon-integration writes the editor state."
   :type  'directory
   :group 'talon-integration

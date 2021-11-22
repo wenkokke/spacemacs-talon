@@ -26,7 +26,8 @@ and title: /Spacemacs/
 #
 #       SPC SPC described-variable talon-integration-root
 #
-SPACEMACS_INTEGRATION_ROOT = os.path.expanduser("~/.talon/spacemacs-info/")
+SPACEMACS_INTEGRATION_ROOT = \
+    os.path.expanduser("~/.emacs.d/.cache/spacemacs-monitor/")
 
 # This is a GLOBAL variable which holds the current editor state:
 SPACEMACS = {}
@@ -57,9 +58,28 @@ def spacemacs_integration_update(path, flags):
 fs.watch(SPACEMACS_INTEGRATION_ROOT, spacemacs_integration_update)
 
 
+def spacemacs_mode():
+    """Get the current mode"""
+    global SPACEMACS
+    return SPACEMACS.get('editor-state', None)
+
+
 # Select the language mode based on the currently visited file
 @ctx.action_class("win")
 class WinActions:
     def filename():
         global SPACEMACS
         return SPACEMACS.get('file-name', '')
+
+# Actions
+@ctx.action_class("user")
+class UserActions:
+
+    def spacemacs_insert_mode():
+        """Change to insert mode"""
+        print(actions.spacemacs_mode())
+        pass
+
+    def spacemacs_normal_mode():
+        """Change to normal mode"""
+        pass

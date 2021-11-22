@@ -1,6 +1,6 @@
 #!/bin/sh
 
-EMACS_SRC=`realpath ./talon-integration`
+EMACS_SRC=`realpath ./spacemacs-monitor`
 TALON_SRC=`realpath ./spacemacs-talon`
 TALON_DIR="$HOME/.talon/user/"
 EMACS_DIR="$HOME/.emacs.d/private/local/"

@@ -62,12 +62,12 @@ class EditActions:
 
     def delete():
         """Delete selection"""
-        with mode('visual'):
+        with mode.visual():
             actions.key('d')
 
     def delete_line():
         """Delete line under cursor"""
-        with mode('normal'):
+        with mode.normal():
             actions.insert('d d')
 
     def delete_paragraph():
@@ -204,14 +204,13 @@ class EditActions:
 
     def indent_less():
         """Remove a tab stop of indentation"""
-        if test('visual'):
-            actions.key('<')
-        else:
-            with mode('visual-line'):
-                actions.key('<')
+        mode.enter_visual_line()
+        actions.key('<')
 
     def indent_more():
         """Add a tab stop of indentation"""
+        mode.enter_visual_line()
+        actions.key('>')
 
     def jump_column(n: int):
         """Move cursor to column <n>"""
@@ -327,9 +326,9 @@ class EditActions:
 
     def select_word():
         """Select word under cursor"""
-        mode.set('normal')
+        mode.enter_normal()
         actions.key('b')
-        mode.set('visual')
+        mode.enter_visual()
         actions.key('e')
 
     def selected_text() -> str:
@@ -370,73 +369,15 @@ class EditActions:
 
     def zoom_in():
         """Zoom in"""
-        pass
+        actions.insert('space z x + q')
 
     def zoom_out():
         """Zoom out"""
-        pass
+        actions.insert('space z x - q')
 
     def zoom_reset():
         """Zoom to original size"""
-        pass
-
-
-@ctx.action_class("app")
-class AppActions:
-
-    def tab_close():
-        """Close the current tab"""
-        with mode('normal'):
-            actions.insert('space b d')
-
-    def tab_detach():
-        """Move the current tab to a new window"""
-        # TODO: can implement as by creating a new window and moving the buffer over to that window
-        pass
-
-    def tab_next():
-        """Switch to next tab for this window"""
-        with mode('normal'):
-            actions.insert('space b n')
-
-    def tab_open():
-        """Open a new tab"""
-        with mode('normal'):
-            actions.insert('space b N n')
-
-    def tab_previous():
-        """Switch to previous tab for this window"""
-        with mode('normal'):
-            actions.insert('space b p')
-
-    def tab_reopen():
-        """Re-open the last-closed tab"""
-        with mode('normal'):
-            actions.insert('space b u')
-
-    def window_close():
-        """Close the current window"""
-        pass
-
-    def window_hide():
-        """Hide the current window"""
-        pass
-
-    def window_hide_others():
-        """Hide all other windows"""
-        pass
-
-    def window_next():
-        """Switch to next window for this app"""
-        pass
-
-    def window_open():
-        """Open a new window"""
-        pass
-
-    def window_previous():
-        """Switch to previous window for this app"""
-        pass
+        actions.insert('space z x 0 q')
 
 
 @ctx.action_class("code")
@@ -510,45 +451,101 @@ class CodeActions:
 
     def toggle_comment():
         """Toggle comments on the current line(s)"""
-        pass
+        with mode.emacs():
+            actions.key('ctrl-x')
+            actions.key('ctrl-;')
+
+
+@ctx.action_class("app")
+class AppActions:
+
+
+    # NOTE: tabs are emacs buffers
+
+    def tab_close():
+        """Close the current tab"""
+        with mode.normal():
+            actions.insert('space b d')
+
+    def tab_detach():
+        """Move the current tab to a new window"""
+        with mode.normal():
+            actions.insert('space w F')
+
+    def tab_next():
+        """Switch to next tab for this window"""
+        with mode.normal():
+            actions.insert('space b n')
+
+    def tab_open():
+        """Open a new tab"""
+        with mode.normal():
+            actions.insert('space b N n')
+
+    def tab_previous():
+        """Switch to previous tab for this window"""
+        with mode.normal():
+            actions.insert('space b p')
+
+    def tab_reopen():
+        """Re-open the last-closed tab"""
+        with mode.normal():
+            actions.insert('space b u')
+
+    # NOTE: windows are emacs frames
+    #
+    # def window_close():
+    #     """Close the current window"""
+    # def window_hide():
+    #     """Hide the current window"""
+    # # def window_hide_others():
+    #     """Hide all other windows"""
+    # def window_next():
+    #     """Switch to next window for this app"""
+    # def window_open():
+    #     """Open a new window"""
+    # def window_previous():
+    #     """Switch to previous window for this app"""
 
 
 @ctx.action_class('self')
 class SplitsActions:
 
+    # NOTE: splits are emacs windows
+
     def split_window_right():
         """Move active tab to right split"""
-        with mode('normal'):
+        with mode.normal():
             actions.insert('space w l')
 
     def split_window_left():
         """Move active tab to left split"""
-        with mode('normal'):
+        with mode.normal():
             actions.insert('space w h')
 
     def split_window_down():
         """Move active tab to lower split"""
-        with mode('normal'):
+        with mode.normal():
             actions.insert('space w j')
 
     def split_window_up():
         """Move active tab to upper split"""
-        with mode('normal'):
+        with mode.normal():
             actions.insert('space w k')
 
     def split_window_vertically():
         """Splits window vertically"""
-        with mode('normal'):
+        with mode.normal():
             actions.insert('space w /')
 
     def split_window_horizontally():
         """Splits window horizontally"""
-        with mode('normal'):
+        with mode.normal():
             actions.insert('space w -')
 
     def split_flip():
         """Flips the orietation of the active split"""
-        with mode('normal'):
+        with mode.normal():
             actions.insert('space w +')
 
     def split_window():
@@ -557,7 +554,7 @@ class SplitsActions:
 
     def split_clear():
         """Clears the current split"""
-        with mode('normal'):
+        with mode.normal():
             actions.insert('space w d')
 
     def split_clear_all():
@@ -566,7 +563,7 @@ class SplitsActions:
 
     def split_next():
         """Goes to next split"""
-        with mode('normal'):
+        with mode.normal():
             actions.insert('space w w')
 
     def split_last():
@@ -574,5 +571,5 @@ class SplitsActions:
 
     def split_number(index: int):
         """Navigates to the specified split"""
-        with mode('normal'):
+        with mode.normal():
             actions.insert('space {}'.format(index))

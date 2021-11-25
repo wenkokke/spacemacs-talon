@@ -80,7 +80,8 @@ class EditActions:
 
     def delete_word():
         """Delete word under cursor"""
-        pass
+        mode.enter_normal()
+        action.key('d y')
 
     def extend_again():
         """Extend selection again in the same way"""
@@ -184,23 +185,26 @@ class EditActions:
 
     def file_end():
         """Move cursor to end of file (start of line)"""
-        pass
+        mode.enter_normal()
+        actions.key('G')
 
     def file_start():
         """Move cursor to start of file"""
-        pass
+        mode.enter_normal()
+        actions.key('gg')
 
     def find(text: str = None):
         """Open Find dialog, optionally searching for text"""
-        pass
+        mode.enter_normal()
+        actions.key('/' + str(text))
 
     def find_next():
         """Select next Find result"""
-        pass
+        actions.key('n')
 
     def find_previous():
         """Select previous Find result"""
-        pass
+        actions.key('p')
 
     def indent_less():
         """Remove a tab stop of indentation"""
@@ -218,31 +222,38 @@ class EditActions:
 
     def jump_line(n: int):
         """Move cursor to line <n>"""
-        pass
+        mode.enter_normal()
+        action.key(str(n) + ' gg')
 
     def line_clone():
         """Create a new line identical to the current line"""
-        pass
+        mode.enter_normal()
+        action.key('y y p')
 
     def line_down():
         """Move cursor to start of line below"""
-        pass
+        mode.enter_normal()
+        action.key('j 0')
 
     def line_end():
         """Move cursor to end of line"""
-        pass
+        mode.enter_normal()
+        action.key('$')
 
     def line_insert_down():
         """Insert line below cursor"""
-        pass
+        mode.enter_normal()
+        action.keys('o')
 
     def line_insert_up():
         """Insert line above cursor"""
-        pass
+        mode.enter_normal()
+        action.keys('O')
 
     def line_start():
         """Move cursor to start of line"""
-        pass
+        mode.enter_normal()
+        action.key('0')
 
     def line_swap_down():
         """Swap the current line with the line below"""
@@ -290,23 +301,32 @@ class EditActions:
 
     def redo():
         """Redo"""
-        pass
+        mode.enter_normal()
+        action.key('.')
 
     def save():
         """Save current document"""
-        pass
+        mode.enter.normal()
+        actions.key("space f s")
 
     def save_all():
         """Save all open documents"""
-        pass
+        mode.enter.normal()
+        actions.key("space f S")
 
     def select_all():
         """Select all text in the current document"""
-        pass
+        mode.enter_normal()
+        actions.key('g g')
+        mode.enter_visual()
+        actions.key('G')
 
     def select_line(n: int = None):
         """Select entire line <n>, or current line"""
-        pass
+        mode.enter.normal()
+        actions.key(str(n) + " g g")
+        mode.enter_visual()
+        actions.key('$')
 
     def select_lines(a: int, b: int):
         """Select entire lines from <a> to <b>"""
@@ -314,7 +334,7 @@ class EditActions:
 
     def select_none():
         """Clear current selection"""
-        pass
+        mode.enter_normal()
 
     def select_paragraph():
         """Select the entire nearest paragraph"""
@@ -333,27 +353,34 @@ class EditActions:
 
     def selected_text() -> str:
         """Get currently selected text"""
-        pass
+        action.keys('y')
 
     def selection_clone():
         """Insert a copy of the current selection"""
-        pass
+        action.keys('y')
+        action.keys('p')
 
     def sentence_end():
         """Move cursor to the end of the current sentence"""
-        pass
+        mode.enter_normal()
+        actions.key('(')
+        actions.key('e')
 
     def sentence_next():
         """Move cursor to the start of the next sentence"""
-        pass
+        mode.enter_normal()
+        actions.key('(')
 
     def sentence_previous():
         """Move cursor to the start of the previous sentence"""
-        pass
+        mode.enter_normal()
+        actions.key(')')
 
     def sentence_start():
         """Move cursor to the start of the current sentence"""
-        pass
+        mode.enter_normal()
+        actions.key('(')
+        actions.key(')')
 
     def undo():
         """Undo"""
